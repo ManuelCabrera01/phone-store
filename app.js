@@ -7,12 +7,14 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var phonesApi = require('./routes/phones-api');
+var cors = require('cors');
 
 
 
 require('./configs/database');
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
