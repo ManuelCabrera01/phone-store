@@ -8,8 +8,9 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var phonesApi = require('./routes/phones-api');
 var cors = require('cors');
+var mongoose = require('mongoose');
 
-
+mongoose.connect('mongodb://localhost:27017/DATABASE_NAME');
 
 require('./configs/database');
 

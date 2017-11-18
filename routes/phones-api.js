@@ -1,7 +1,7 @@
 var express = require('express');
-var router = express.Router();
-
+const mongoose = require ("mongoose")
 const Phone = require('../models/phone-model');
+var router = express.Router();
 
 /* GET Phones listing. */
 router.get('/phones', (req, res, next) => {
@@ -35,6 +35,7 @@ router.post('/phones', (req, res, next) => {
     });
   });
 });
+/* GET a single Phone. */
 
 router.get('/phones/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -51,6 +52,22 @@ router.get('/phones/:id', (req, res) => {
       res.json(thePhone);
     });
 });
+router.get('/phones/:id', (req, res) => {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: 'Specified id is not valid' });
+    return;
+  }
+
+  Phone.findById(req.params.id, (err, thePhone) => {
+      if (err) {
+        res.json(err);
+        return;
+      }
+
+      res.json(thePhone);
+    });
+});
+
 
 /* EDIT a Phone. */
 router.put('/phones/:id', (req, res) => {
