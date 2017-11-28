@@ -9,7 +9,7 @@ var index = require('./routes/index');
 var phonesApi = require('./routes/phones-api');
 var cors = require('cors');
 var mongoose = require('mongoose');
-
+var multer = require('multer');
 mongoose.connect('mongodb://localhost:27017/DATABASE_NAME');
 
 require('./configs/database');

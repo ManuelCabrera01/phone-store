@@ -2,6 +2,7 @@ var express = require('express');
 const mongoose = require ("mongoose")
 const Phone = require('../models/phone-model');
 var router = express.Router();
+const upload = require('../configs/multer');
 
 /* GET Phones listing. */
 router.get('/phones', (req, res, next) => {
@@ -15,23 +16,22 @@ router.get('/phones', (req, res, next) => {
 });
 
 /* CREATE a new Phone. */
-router.post('/phones', (req, res, next) => {
-  const thePhone = new Phone({
-    brand: req.body.brand,
+router.post('/phones', upload.single('file'), function(req, res) {
+  const phone = new Phone({
     name: req.body.name,
-    specs: req.body.specs,
-    image: req.body.image || ''
+    brand: req.body.brand,
+    image: `/uploads/${req.file.filename}`,
+    specs: JSON.parse(req.body.specs) || []
   });
 
-  thePhone.save((err) => {
+  phone.save((err) => {
     if (err) {
-      res.json(err);
-      return;
+      return res.send(err);
     }
 
-    res.json({
+    return res.json({
       message: 'New Phone created!',
-      id: thePhone._id
+      phone: phone
     });
   });
 });
@@ -111,7 +111,7 @@ router.delete('/phones/:id', (req, res) => {
     return res.json({
       message: 'Phone has been removed!'
     });
-  })
+  });
 });
 
 
