@@ -1,8 +1,10 @@
-var express = require('express');
-const mongoose = require ("mongoose")
+const express = require('express');
+const mongoose = require('mongoose');
+
 const Phone = require('../models/phone-model');
-var router = express.Router();
 const upload = require('../configs/multer');
+
+const router = express.Router();
 
 /* GET Phones listing. */
 router.get('/phones', (req, res, next) => {
@@ -14,8 +16,6 @@ router.get('/phones', (req, res, next) => {
     res.json(phonesList);
   });
 });
-
-/* CREATE a new Phone. */
 router.post('/phones', upload.single('file'), function(req, res) {
   const phone = new Phone({
     name: req.body.name,
@@ -36,7 +36,6 @@ router.post('/phones', upload.single('file'), function(req, res) {
   });
 });
 /* GET a single Phone. */
-
 router.get('/phones/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: 'Specified id is not valid' });
@@ -52,22 +51,6 @@ router.get('/phones/:id', (req, res) => {
       res.json(thePhone);
     });
 });
-router.get('/phones/:id', (req, res) => {
-  if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    res.status(400).json({ message: 'Specified id is not valid' });
-    return;
-  }
-
-  Phone.findById(req.params.id, (err, thePhone) => {
-      if (err) {
-        res.json(err);
-        return;
-      }
-
-      res.json(thePhone);
-    });
-});
-
 
 /* EDIT a Phone. */
 router.put('/phones/:id', (req, res) => {
@@ -111,8 +94,6 @@ router.delete('/phones/:id', (req, res) => {
     return res.json({
       message: 'Phone has been removed!'
     });
-  });
+  })
 });
-
-
 module.exports = router;

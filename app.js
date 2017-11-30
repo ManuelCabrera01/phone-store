@@ -4,17 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const mongoose     = require('mongoose');
 
 var index = require('./routes/index');
 var phonesApi = require('./routes/phones-api');
-var cors = require('cors');
-var mongoose = require('mongoose');
-var multer = require('multer');
-mongoose.connect('mongodb://localhost:27017/DATABASE_NAME');
-
 require('./configs/database');
+var cors = require('cors');
+
+mongoose.connect('mongodb://localhost:27017/phone-store');
 
 var app = express();
+
 app.use(cors());
 
 // view engine setup
@@ -30,6 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/api', phonesApi);
 
 app.use('/api', phonesApi);
 // This will be the default route is nothing else is caught

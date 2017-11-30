@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
-const phoneSchema = new mongoose.Schema({
+
+const Schema = mongoose.Schema;
+
+const phoneSchema = new Schema({
   brand: {
     type: String,
     required: [true, 'The phone brand is required']
